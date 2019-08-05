@@ -1,0 +1,47 @@
+- hosts: "{{ hosts }}"
+  gather_facts: no
+  remote_user: root
+  vars:
+    - servicename: "{{ servicename }}"
+    - replica: "{{ replica }}"
+    - functions: "{{ functions }}"
+
+
+  tasks:
+   - name: scaling service
+     shell: if [[ $(docker service ls | grep "{{servicename}}" | wc -l) -gt 1 ]]; then echo '******BU SERVISTEN BIRDEN FAZLA VARDIR,LUTFEN SERVIS ADINI TAM YAZIN*****'; elif [[ $(docker service ls |$
+     register: scale
+     when: functions=="scale"
+   - debug:
+       msg: "{{ scale.stdout_lines }}"
+     when: functions=="scale"
+
+   - name: listing by name
+     shell: docker service ls | awk '{print $2   "                    " $4 "              " $5}' | grep {{servicename}}
+     register: servicedockerls
+     when:
+       - functions=="list"
+       - servicename != ''
+
+   - debug:
+       msg: "{{ servicedockerls.stdout_lines }}"
+     when:
+       - functions=="list"
+       - servicename != ''
+
+   - name: listing all service
+     shell: docker service ls | awk '{print $2   "                    " $4 "               " $5}'
+     register: dockerls
+     when: functions=="list" and servicename == ''
+
+   - debug:
+       msg: "{{ dockerls.stdout_lines }}"
+     when: functions=="list" and servicename == ''
+
+   - name: removing service
+     shell: if [[ $(docker service ls | grep '{{servicename}}' | wc -l) -gt 1 ]]; then echo '******BU SERVISTEN BIRDEN FAZLA VARDIR,LUTFEN SERVIS ADINI TAM YAZIN*****'; elif [[ $(docker service ls |$
+     register: remove
+     when: functions=="remove"
+   - debug:
+       msg: "{{ remove.stdout_lines }}"
+     when: functions=="remove"
