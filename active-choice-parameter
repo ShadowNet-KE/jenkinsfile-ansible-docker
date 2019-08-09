@@ -1,0 +1,34 @@
+Active Choice Parameter:
+Groovy Script:
+name: functions
+
+	Groovy Script:
+return['list','scale','remove']
+
+------------------
+
+Active Choice Reactive Parameter in Jenkins
+
+name: information
+Choice Type: bullet item list
+Referenced parameters:functions
+	Groovy Script:
+if (functions.equals("list"))
+{
+    return ["Tüm servisleri görüntülemek istiyorsanız list seçeneğini kullanabilirsiniz. Eğer servis adına göre listelemek istiyorsanız, servicename kısmına listelemek istediğiniz servis adını giriniz.Replica kısmı boş bırakılmalı."]
+}
+else if (functions.equals("scale"))
+{
+    return ["Servisleri scale etmek için bu seçeneği kullanabilirsiniz. Servicename kısmına scale etmek istediğiniz servis ismini ve replica kısmına kaç tane replica oluşturmak istediğinizi yazınız.Lütfen servicename ve replica boş bırakmayınız."]
+}
+else if (functions.equals("remove"))
+{
+     return ["Servis silmek istiyorsanız bu seçeneği kullanabilirsiniz. Lütfen silmek istediğiniz servis adını servicename kısmına yazınız, boş bırakmayınız."]
+}
+else{
+    return ["Lütfen yapmak istediğiniz işlemi seçiniz."]
+}
+
+
+--------------
+
