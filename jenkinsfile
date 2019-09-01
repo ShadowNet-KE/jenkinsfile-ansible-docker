@@ -1,16 +1,16 @@
 node {    
     stage('Run playbook'){
         dir('/etc/ansible/') {
-          ansiblePlaybook  ([
-                inventory: 'hosts',
-                playbook    : 'test1.yml',
-                hosts: "server2",
-                  extraVars: [
-                        servicename: "${servicename}",
-                        replica: "${replica}",
-                        functions: "${functions}"
+          ansiblePlaybook(
+                credentialsId: 'cem_dev',
+                playbook: 'manage_docker.yml',
+                extraVars:[
+                  hosts: "cem-devhost",
+                  servicename: "${servicename}",
+                  replica: "${replica}",
+                  functions: "${functions}"
             ],
-         ])
+         )
         }
     }
 }
