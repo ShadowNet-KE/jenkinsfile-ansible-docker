@@ -1,6 +1,5 @@
 - hosts: "{{ hosts }}"
   gather_facts: no
-  remote_user: root
   vars:
     - servicename: "{{ servicename }}"
     - replica: "{{ replica }}"
@@ -9,7 +8,7 @@
 
   tasks:
    - name: scaling service
-     shell: if [[ $(docker service ls | grep "{{servicename}}" | wc -l) -gt 1 ]]; then echo '******BU SERVISTEN BIRDEN FAZLA VARDIR,LUTFEN SERVIS ADINI TAM YAZIN*****'; elif [[ $(docker service ls |$
+     shell: if [[ $(docker service ls | grep "{{servicename}}" | wc -l) -gt 1 ]]; then echo '******BU SERVISTEN BIRDEN FAZLA VARDIR,LUTFEN SERVIS ADINI TAM YAZIN*****'; elif [[ $(docker service ls | grep "{{servicename}}" | wc -l) -eq 1 ]]; then docker service scale "$(docker service ls | grep '{{servicename}}' | awk '{print $1}')={{replica}}" -d; else echo 'BÖYLE BİR SERVİS YOKTUR'; fi
      register: scale
      when: functions=="scale"
    - debug:
@@ -39,7 +38,7 @@
      when: functions=="list" and servicename == ''
 
    - name: removing service
-     shell: if [[ $(docker service ls | grep '{{servicename}}' | wc -l) -gt 1 ]]; then echo '******BU SERVISTEN BIRDEN FAZLA VARDIR,LUTFEN SERVIS ADINI TAM YAZIN*****'; elif [[ $(docker service ls |$
+     shell: if [[ $(docker service ls | grep '{{servicename}}' | wc -l) -gt 1 ]]; then echo '******BU SERVISTEN BIRDEN FAZLA VARDIR,LUTFEN SERVIS ADINI TAM YAZIN*****'; elif [[ $(docker service ls | grep '{{servicename}}' | wc -l) -eq 1 ]]; then docker service rm $(docker service ls | grep '{{servicename}}' | awk '{print $1}'); else echo 'BÖYLE BİR SERVİS YOKTUR'; fi
      register: remove
      when: functions=="remove"
    - debug:
