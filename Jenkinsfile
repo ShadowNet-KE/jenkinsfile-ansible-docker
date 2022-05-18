@@ -3,9 +3,9 @@ node {
         dir('/etc/ansible/') {
           ansiblePlaybook(
                 credentialsId: 'cem_dev',
-                playbook: 'manage_docker.yml',
+                playbook: 'Ansible-Playbook-Docker-Vars.yml',
                 extraVars:[
-                  hosts: "cem-devhost",
+                  hosts: "all",
                   servicename: "${servicename}",
                   replica: "${replica}",
                   functions: "${functions}"
