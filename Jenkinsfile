@@ -6,9 +6,9 @@ node("jenkins-agent") {
                 playbook: 'Ansible-Playbook-Docker-Vars.yml',
                 extraVars:[
                   hosts: "all",
-//                   servicename: "${servicename}",
-//                   replica: "${replica}",
-//                   functions: "${functions}"
+                  servicename: "${servicename}",
+                  replica: "${replica}",
+                  functions: "${functions}"
             ],
          )
         }
