@@ -1,9 +1,9 @@
-- hosts: "{{ hosts }}"
+- hosts: all
   gather_facts: no
   vars:
-    - servicename: "{{ servicename }}"
-    - replica: "{{ replica }}"
-    - functions: "{{ functions }}"
+    - servicename: jenkins
+    - replica: false
+    - functions: list
 
 
   tasks:
