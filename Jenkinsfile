@@ -1,4 +1,4 @@
-node {    
+node("jenkins-agent") {    
     stage('Run playbook'){
         dir('/etc/ansible/') {
           ansiblePlaybook(
